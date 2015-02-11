@@ -1,0 +1,5 @@
+- Install into /protected/modules/EyeSoftPAS
+- Ensure code migration is up to date
+- Add details from docs/common.php to /protected/config/local/common.php
+- Do migrations:
+	./yiic migrate --migrationPath=application.modules.EyeSoftPAS.migrations
