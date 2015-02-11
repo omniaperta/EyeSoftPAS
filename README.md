@@ -1,3 +1,3 @@
 EyeSoftPAS
 ==========
-This module has not stable releases
+This module has no stable releases
