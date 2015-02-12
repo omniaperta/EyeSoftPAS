@@ -1,5 +1,8 @@
 <?php
 
+namespace OEModule\EyeSoftPAS\models\eyesoft;
+use OEModule\EyeSoftPAS\models;
+
 /**
  * This is the model class for table "e_tribes".
  *
@@ -9,7 +12,7 @@
  * @property string $tribe_name
  * @property integer $is_additional
  */
-class ETribes extends CActiveRecord
+class ETribes extends \MultiActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -17,6 +20,11 @@ class ETribes extends CActiveRecord
 	public function tableName()
 	{
 		return 'e_tribes';
+	}
+
+	public function connectionId()
+	{
+		return 'db_pas';
 	}
 
 	/**

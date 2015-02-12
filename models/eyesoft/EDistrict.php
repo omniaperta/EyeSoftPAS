@@ -1,5 +1,8 @@
 <?php
 
+namespace OEModule\EyeSoftPAS\models\eyesoft;
+use OEModule\EyeSoftPAS\models;
+
 /**
  * This is the model class for table "e_district".
  *
@@ -9,7 +12,7 @@
  * @property string $district_name
  * @property integer $region
  */
-class EDistrict extends CActiveRecord
+class EDistrict extends \MultiActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -17,6 +20,11 @@ class EDistrict extends CActiveRecord
 	public function tableName()
 	{
 		return 'e_district';
+	}
+
+	public function connectionId()
+	{
+		return 'db_pas';
 	}
 
 	/**

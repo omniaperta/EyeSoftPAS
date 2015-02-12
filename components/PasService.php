@@ -144,7 +144,7 @@ class PasService
 					$address->city = $pas_patient->town;
 					$address->email = $pas_patient->email;
 					$country_id = 1;
-					if($default_country_code = Yii::app()->params['default_country_code']) {
+					if($default_country_code = Yii::app()->params['eyesoftpas_default_country_code']) {
 						$country = \Country::model()->findByAttributes(array('code' => $default_country_code));
 						$country_id = ($country) ? $country->id : 1;
 					}

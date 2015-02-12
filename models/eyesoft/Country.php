@@ -1,5 +1,8 @@
 <?php
 
+namespace OEModule\EyeSoftPAS\models\eyesoft;
+use OEModule\EyeSoftPAS\models;
+
 /**
  * This is the model class for table "country".
  *
@@ -15,7 +18,7 @@
  * @property string $UPDATEDON
  * @property string $UPDATEDBY
  */
-class Country extends CActiveRecord
+class Country extends \MultiActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -23,6 +26,11 @@ class Country extends CActiveRecord
 	public function tableName()
 	{
 		return 'country';
+	}
+
+	public function connectionId()
+	{
+		return 'db_pas';
 	}
 
 	/**

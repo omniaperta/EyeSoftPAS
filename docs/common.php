@@ -15,5 +15,6 @@ return array(
 		'params'=>array(
 				'eyesoftpas_enabled' => true,
 				//'eyesoftpas_cache_time' => 300,
+				'eyesoftpas_default_country_code' => 'GB',
 		),
 );

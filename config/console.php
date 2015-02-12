@@ -18,4 +18,9 @@
  */
 
 return array(
+	'commandMap' => array(
+		'populateeyesoft' => array(
+			'class' => '\OEModule\EyeSoftPAS\commands\PopulateEyesoftCommand',
+		),
+	),
 );
