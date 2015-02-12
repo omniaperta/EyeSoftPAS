@@ -135,7 +135,7 @@ class PasService
 
 				// Address
 				if ($pas_patient->address) {
-					if (!$contact->address) {
+					if (!$address = $contact->address) {
 						Yii::log("Patient address not found, creating", 'trace');
 						$address = new \Address;
 						$address->contact_id = $contact->id;
