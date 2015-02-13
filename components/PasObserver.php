@@ -18,6 +18,7 @@
  */
 
 namespace OEModule\EyeSoftPAS\components;
+use OEModule\EyeSoftPAS\models\PasAssignment;
 use Yii;
 
 class PasObserver
@@ -29,7 +30,6 @@ class PasObserver
 	public function updatePatientFromPas($params)
 	{
 		Yii::log('updatePatientFromPas');
-		return;
 		// Check to see if patient is in "offline" mode
 		$patient = $params['patient'];
 		if (!$patient->use_pas) {

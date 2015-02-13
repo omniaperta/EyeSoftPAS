@@ -105,11 +105,11 @@ class PasService
 			if (($pas_patient = $assignment->getExternal())) {
 				Yii::log("Found patient in PAS", 'trace');
 				$patient_attrs = array(
-						'gender' => $pas_patient->sex,
-						'dob' => $pas_patient->birthdate,
+						'gender' => $this->stripNull($pas_patient->sex),
+						'dob' => $this->stripNull($pas_patient->birthdate),
 						'ethnic_group_id' => null,
-						'pas_key' => $pas_patient->pno,
-						'hos_num' => $pas_patient->pno,
+						'pas_key' => $this->stripNull($pas_patient->pno),
+						'hos_num' => $this->stripNull($pas_patient->pno),
 						'nhs_num' => '',
 				);
 				$patient->attributes = $patient_attrs;
@@ -121,10 +121,10 @@ class PasService
 
 				$contact = $patient->contact;
 				$contact->title = null;
-				$contact->first_name = $pas_patient->fname;
-				$contact->last_name = $pas_patient->surname;
-				$contact->other_names = $pas_patient->sname;
-				$contact->primary_phone = $pas_patient->cell1;
+				$contact->first_name = $this->stripNull($pas_patient->fname);
+				$contact->last_name = $this->stripNull($pas_patient->surname);
+				$contact->other_names = $this->stripNull($pas_patient->sname);
+				$contact->primary_phone = $this->stripNull($pas_patient->cell1);
 				if (!$contact->save()) {
 					throw new CException('Cannot save patient contact: '.print_r($contact->getErrors(),true));
 				}
@@ -135,27 +135,23 @@ class PasService
 				}
 
 				// Address
-				if ($pas_patient->address) {
-					if (!$address = $contact->address) {
-						Yii::log("Patient address not found, creating", 'trace');
-						$address = new \Address;
-						$address->contact_id = $contact->id;
-					}
-					$address->address1 = $pas_patient->address;
-					$address->city = $pas_patient->town;
-					$address->email = $pas_patient->email;
-					$country_id = 1;
-					if($default_country_code = Yii::app()->params['eyesoftpas_default_country_code']) {
-						$country = \Country::model()->findByAttributes(array('code' => $default_country_code));
-						$country_id = ($country) ? $country->id : 1;
-					}
-					$address->country_id = $country_id;
+				if (!$address = $contact->address) {
+					Yii::log("Patient address not found, creating", 'trace');
+					$address = new \Address;
+					$address->contact_id = $contact->id;
+				}
+				$address->address1 = $this->stripNull($pas_patient->address);
+				$address->city = $this->stripNull($pas_patient->town);
+				$address->email = $this->stripNull($pas_patient->email);
+				$country_id = 1;
+				if($default_country_code = Yii::app()->params['eyesoftpas_default_country_code']) {
+					$country = \Country::model()->findByAttributes(array('code' => $default_country_code));
+					$country_id = ($country) ? $country->id : 1;
+				}
+				$address->country_id = $country_id;
 
-					if (!$address->save()) {
-						throw new CException('Cannot save patient address: '.print_r($address->getErrors(),true));
-					}
-				} else if($contact->address) {
-					$contact->address->delete();
+				if (!$address->save()) {
+					throw new CException('Cannot save patient address: '.print_r($address->getErrors(),true));
 				}
 
 				// Advisory locks cannot be nested so release patient lock here
@@ -173,6 +169,11 @@ class PasService
 		} catch (CDbException $e) {
 			$this->handlePASException($e);
 		}
+	}
+
+	protected function stripNull($value)
+	{
+		return ($value == 'NULL') ? null : $value;
 	}
 
 	/**
