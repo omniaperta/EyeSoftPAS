@@ -123,6 +123,7 @@ class PasService
 				$contact->title = null;
 				$contact->first_name = $pas_patient->fname;
 				$contact->last_name = $pas_patient->surname;
+				$contact->other_names = $pas_patient->sname;
 				$contact->primary_phone = $pas_patient->cell1;
 				if (!$contact->save()) {
 					throw new CException('Cannot save patient contact: '.print_r($contact->getErrors(),true));
